@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            width: 150px;
+            height: 50px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button.on {
+            background-color: green;
+        }
+
+        button.off {
+            background-color: red;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button.control-all-btn {
+            background-color: #007BFF;
+            width: 200px;
+            height: 50px;
+            font-size: 16px;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+        }
+
+        button.control-all-btn:hover {
+            background-color: #777;
+        }
+
+
+        form {
+            display: inline-block;
+            margin: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'dash' %}">Dashboard</a>
+    <a href="{% url 'logout' %}">Disconnect</a>
+    <h1>Contrôle des prises</h1>
+
+    <form method="POST" action="{% url 'toggle_prise' 'PRISE1' %}">
+        {% csrf_token %}
+        <button id="prise1-btn" class="{% if prise_states.PRISE1 %}on{% else %}off{% endif %}">PRISE 1</button>
+    </form>
+
+    <form method="POST" action="{% url 'toggle_prise' 'PRISE2' %}">
+        {% csrf_token %}
+        <button id="prise2-btn" class="{% if prise_states.PRISE2 %}on{% else %}off{% endif %}">PRISE 2</button>
+    </form>
+
+    <form method="POST" action="{% url 'control_all1' %}">
+        {% csrf_token %}
+        <button class="control-all-btn">TOUT ON</button>
+    </form>
+
+    <form method="POST" action="{% url 'control_all0' %}">
+        {% csrf_token %}
+        <button class="control-all-btn">TOUT OFF</button>
+    </form>
+
+    <script>
+        setInterval(() => {
+            location.reload();
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<script>
+        var socket = new WebSocket('ws://localhost:6379/ws/prises/');
+
+        socket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            console.log(data);
+            var prise1 = data['PRISE1'];
+            var prise2 = data['PRISE2'];
+
+            // Met à jour l'état des boutons
+            var prise1Btn = document.getElementById('prise1-btn');
+            var prise2Btn = document.getElementById('prise2-btn');
+
+            if (prise1) {
+                prise1Btn.classList.add('on');
+                prise1Btn.classList.remove('off');
+            } else {
+                prise1Btn.classList.add('off');
+                prise1Btn.classList.remove('on');
+            }
+
+            if (prise2) {
+                prise2Btn.classList.add('on');
+                prise2Btn.classList.remove('off');
+            } else {
+                prise2Btn.classList.add('off');
+                prise2Btn.classList.remove('on');
+            }
+            location.reload();
+        };
+
+        socket.onclose = function(e) {
+            console.error('WebSocket fermé de manière inattendue');
+        };
+    </script>
